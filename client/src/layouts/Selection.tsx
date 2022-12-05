@@ -9,6 +9,7 @@ import DeleteDialog from "../Components/DeleteDialog";
 import IBooking from "../interfaces/Booking";
 import AddBooking from "../Components/AddBooking";
 import CancelBooking from "../Components/CancelBooking";
+import moment from "moment";
 
 const Selection = () => {
   const [events, setEvents] = useState<IBooking[]>([]);
@@ -34,6 +35,12 @@ const Selection = () => {
     await fetch("http://localhost:3001")
       .then((res) => res.json())
       .then((response) => {
+        response.sort((a: IBooking, b: IBooking) => {
+          let date1: any = new Date(a.dateTime);
+          var date2: any = new Date(b.dateTime);
+          return date1 - date2;
+        });
+
         setEvents(response);
         setEventChange(false);
       })
@@ -65,7 +72,9 @@ const Selection = () => {
               <ClickAwayListener onClickAway={handleClickAway}>
                 <Grid container spacing={2}>
                   {events.map((event: IBooking, key: number) => {
-                    const date = new Date(event.dateTime);
+                    const jsdate = new Date(event.dateTime);
+                    const date = moment(jsdate).format("DD/MM/YYYY");
+                    const time = moment(jsdate).format("LT");
                     return (
                       <Grid
                         key={key}
@@ -86,17 +95,12 @@ const Selection = () => {
                         <Typography pl={2} sx={{ fontWeight: "bold" }}>
                           Date of Event:
                         </Typography>
-                        <Typography pl={2}>
-                          {date.getDate()}-{date.getMonth() + 1}-
-                          {date.getFullYear()}
-                        </Typography>
+                        <Typography pl={2}>{date}</Typography>
                         <hr></hr>
                         <Typography pl={2} sx={{ fontWeight: "bold" }}>
                           Time of Event:
                         </Typography>
-                        <Typography pl={2}>
-                          {date.getHours()}:{date.getMinutes()}
-                        </Typography>
+                        <Typography pl={2}>{time}</Typography>
 
                         {event.isBooked ? (
                           <>
