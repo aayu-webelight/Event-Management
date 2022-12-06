@@ -1,6 +1,6 @@
-export default interface IBooking {
+export default interface ISheets {
   _id: String;
   bookerName: String;
   isBooked: Boolean;
-  slotNo: String;
+  sheetNo: number;
 }

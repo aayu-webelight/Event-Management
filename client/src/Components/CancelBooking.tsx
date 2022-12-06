@@ -15,12 +15,12 @@ const CancelBooking = (props: any) => {
 
   const handleSubmit = async () => {
     const body = JSON.stringify({
-      id: props.selectedEvent._id,
+      id: props.selectedSheet._id,
     });
     const response = await cancelSlot(body);
 
     if (response.status === 200) {
-      props.setEventChange(true);
+      props.setStatusChange(true);
     } else {
       setError(true);
     }

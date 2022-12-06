@@ -17,12 +17,12 @@ const AddBooking = (props: any) => {
   };
   const handleSubmit = async () => {
     const body = JSON.stringify({
-      id: props.selectedEvent._id,
+      id: props.selectedSheet._id,
       bookerName: name,
     });
     const response = await bookslot(body);
     if (response.status === 201) {
-      props.setEventChange(true);
+      props.setStatusChange(true);
     } else {
       setError(true);
     }
@@ -34,7 +34,7 @@ const AddBooking = (props: any) => {
     <>
       <Dialog fullWidth open={props.showAddDialog} onClose={handleClose}>
         <DialogTitle>
-          Enter Bookie Name For Sheet {props.selectedEvent.slotNo}
+          Enter Bookie Name For Sheet {props.selectedSheet.sheetNo}
         </DialogTitle>
         <DialogContent>
           <TextField
