@@ -70,7 +70,7 @@ const Selection = () => {
                           onClick={() => setShowCancelDialog(true)}
                           sx={{
                             "& .MuiSvgIcon-root": {
-                              fontSize: 28,
+                              fontSize: 32,
                             },
                           }}
                         />
@@ -83,7 +83,7 @@ const Selection = () => {
                           onClick={() => setShowAddDialog(true)}
                           sx={{
                             "& .MuiSvgIcon-root": {
-                              fontSize: 28,
+                              fontSize: 32,
                             },
                           }}
                         />
