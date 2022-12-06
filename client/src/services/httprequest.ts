@@ -6,13 +6,22 @@ export const getSlots = async () => {
   return await axios.get(url);
 };
 
-export const bookslot = async (method: string, name: string) => {
+export const bookslot = async (body: string) => {
   const url = API as string;
   return await fetch(url, {
-    method: method,
-    body: JSON.stringify({
-      bookieName: String,
-    }),
+    method: "PUT",
+    body: body,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
+
+export const cancelSlot = async (body: string) => {
+  const url = API as string;
+  return await fetch(url, {
+    method: "DELETE",
+    body: body,
     headers: {
       "Content-Type": "application/json",
     },

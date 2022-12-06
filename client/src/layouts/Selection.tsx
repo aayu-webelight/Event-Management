@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { List, ListItemButton, ListItem } from "@mui/material";
-
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import IBooking from "../interfaces/Booking";
 import AddBooking from "../Components/AddBooking";
@@ -31,9 +30,10 @@ const Selection = () => {
 
   const getEvents = async () => {
     const response: any = await getSlots();
-    // console.log(response);
-    setEvents(response.data);
-    setEventChange(false);
+    if (response.status === 200) {
+      setEvents(response.data);
+      setEventChange(false);
+    }
   };
 
   const handleClickAway = () => {
@@ -53,6 +53,7 @@ const Selection = () => {
               {events.map((event: IBooking, key: number) => {
                 return (
                   <Grid
+                    pt={1}
                     key={key}
                     margin={1}
                     xs={2}
@@ -63,47 +64,50 @@ const Selection = () => {
                   >
                     {event.isBooked ? (
                       <>
-                        <Radio color="success" checked={true} />
+                        <Radio
+                          color="success"
+                          checked={true}
+                          onClick={() => setShowCancelDialog(true)}
+                          sx={{
+                            "& .MuiSvgIcon-root": {
+                              fontSize: 28,
+                            },
+                          }}
+                        />
                       </>
                     ) : (
                       <>
-                        <Radio color="error" checked={true} />
+                        <Radio
+                          color="error"
+                          checked={true}
+                          onClick={() => setShowAddDialog(true)}
+                          sx={{
+                            "& .MuiSvgIcon-root": {
+                              fontSize: 28,
+                            },
+                          }}
+                        />
                       </>
                     )}
                     <hr />
-                    <Typography sx={{ fontWeight: "bold" }} pb={1}>
-                      Slot No: {event.slotNo}
-                    </Typography>
-                    {changeBookingStatus && selectedEvent._id === event._id && (
+                    {event.isBooked ? (
                       <>
-                        <hr style={{ margin: "0" }}></hr>
-                        {event.isBooked ? (
-                          <List>
-                            <ListItem>
-                              <span style={{ fontWeight: 700 }}>
-                                Booked By:
-                              </span>
-                              &nbsp;&nbsp;
-                              {event.bookerName}
-                            </ListItem>
-                            <hr></hr>
-                            <ListItemButton
-                              onClick={() => setShowCancelDialog(true)}
-                            >
-                              Cancel Booking
-                            </ListItemButton>
-                          </List>
-                        ) : (
-                          <>
-                            <List>
-                              <ListItemButton
-                                onClick={() => setShowAddDialog(true)}
-                              >
-                                Add Booking
-                              </ListItemButton>
-                            </List>
-                          </>
-                        )}
+                        <Typography sx={{ fontWeight: "bold" }} pb={1}>
+                          Sheet No: {event.slotNo}
+                        </Typography>
+
+                        <hr></hr>
+                        <Typography pb={1}>
+                          <span style={{ fontWeight: 700 }}>Booked By:</span>
+                          &nbsp;&nbsp;
+                          {event.bookerName}
+                        </Typography>
+                      </>
+                    ) : (
+                      <>
+                        <Typography sx={{ fontWeight: "bold" }} pb={5} pt={3}>
+                          Sheet No: {event.slotNo}
+                        </Typography>
                       </>
                     )}
                   </Grid>

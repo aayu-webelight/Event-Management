@@ -4,32 +4,28 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import Alertbox from "./Alertbox";
+import { cancelSlot } from "../services/httprequest";
 
 const CancelBooking = (props: any) => {
   const [alertOpen, setAlertOpen] = useState<Boolean>(false);
+  const [error, setError] = useState<Boolean>(false);
   const handleClose = () => {
     props.setShowCancelDialog(false);
   };
 
-  const handleSubmit = () => {
-    fetch("http://localhost:3001", {
-      method: "DELETE",
-      body: JSON.stringify({
-        id: props.selectedEvent._id,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        props.setEventChange(true);
-        setAlertOpen(true);
-        handleClose();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleSubmit = async () => {
+    const body = JSON.stringify({
+      id: props.selectedEvent._id,
+    });
+    const response = await cancelSlot(body);
+
+    if (response.status === 200) {
+      props.setEventChange(true);
+    } else {
+      setError(true);
+    }
+    setAlertOpen(true);
+    handleClose();
   };
 
   return (
@@ -51,7 +47,11 @@ const CancelBooking = (props: any) => {
           </Button>
         </DialogActions>
       </Dialog>
-      <Alertbox alertOpen={alertOpen} setAlertOpen={setAlertOpen} />
+      <Alertbox
+        alertOpen={alertOpen}
+        setAlertOpen={setAlertOpen}
+        error={error}
+      />
     </>
   );
 };
