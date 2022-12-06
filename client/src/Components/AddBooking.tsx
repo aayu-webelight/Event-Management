@@ -26,6 +26,7 @@ const AddBooking = (props: any) => {
     })
       .then((res) => res.json())
       .then((response) => {
+        console.log(response);
         setAlertOpen(true);
         props.setEventChange(true);
         props.setShowAddDialog(false);

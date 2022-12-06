@@ -1,15 +1,17 @@
 import Booking from "models/bookingModel";
-import IBooking, { IBook } from "interfaces/booking";
-import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
+import IBooking from "interfaces/booking";
 
-export const addBook = async (obj: IBook) => {
+export const addBook = async (input: number) => {
   try {
-    return await Booking.create({
-      showName: obj.showName,
-      bookerName: "",
-      dateTime: obj.dateTime,
-      isBooked: false,
-    });
+    const previousentries: IBooking[] | any = await getAllBookings();
+    const startingNumber = previousentries.length;
+    for (let i = startingNumber + 1; i <= startingNumber + input; i++) {
+      await Booking.create({
+        bookerName: "",
+        slotNo: i,
+        isBooked: false,
+      });
+    }
   } catch (error) {
     return error;
   }

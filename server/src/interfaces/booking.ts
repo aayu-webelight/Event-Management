@@ -1,12 +1,10 @@
 export default interface IBooking {
-  showName: String;
+  id: string;
   bookerName: String;
-  dateTime: String;
   isBooked: Boolean;
-  id: String;
+  slotNo: String;
 }
 
-export interface IBook {
-  showName: String;
-  dateTime: String;
+export interface slots {
+  number: number;
 }

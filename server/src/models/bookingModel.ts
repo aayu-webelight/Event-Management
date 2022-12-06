@@ -2,15 +2,11 @@ import mongoose from "mongoose";
 import IBooking from "interfaces/booking";
 
 const bookingSchema = new mongoose.Schema<IBooking>({
-  showName: {
-    type: String,
-    required: true,
-  },
   bookerName: {
     type: String,
   },
-  dateTime: {
-    type: String,
+  slotNo: {
+    type: Number,
     required: true,
     unique: true,
   },

@@ -17,7 +17,7 @@ export const getAll = async (req: Request, res: Response) => {
 
 export const addBooking = async (req: Request, res: Response) => {
   try {
-    res.status(201).send(await addBook(req.body));
+    res.status(201).send(await addBook(req.body.input));
   } catch (error) {
     res.status(400).send(error);
   }
