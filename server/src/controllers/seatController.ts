@@ -33,7 +33,6 @@ export const updateBooking = async (req: Request, res: Response) => {
 
 export const cancelBooking = async (req: Request, res: Response) => {
   try {
-    console.log(req.body);
     res.status(200).send(await cancelSeatBooking(req.body.id));
   } catch (error) {
     res.status(400).send(error);

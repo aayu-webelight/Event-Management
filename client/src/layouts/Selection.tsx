@@ -7,6 +7,7 @@ import BookSeat from "../Components/BookSeat";
 import CancelBooking from "../Components/CancelBooking";
 import Radio from "@mui/material/Radio";
 import { getSlots } from "../services/httprequest";
+import { useMediaQuery } from "@mui/material";
 
 const Selection = () => {
   const [seats, setSeats] = useState<ISeats[]>([]);
@@ -20,6 +21,8 @@ const Selection = () => {
   });
   const [showBookSeatDialog, setShowBookSeatDialog] = useState<boolean>(false);
   const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false);
+  const MobileGrid = useMediaQuery("(max-width:720px)");
+  const MobilePadding = useMediaQuery("(min-width:1280px)");
 
   useEffect(() => {
     getEvents();
@@ -40,14 +43,14 @@ const Selection = () => {
     <>
       <Box mt={10} ml={5}>
         <Box sx={{ flexGrow: 1 }}>
-          <Grid container item spacing={5} ml={3}>
+          <Grid container item spacing={5} ml={MobilePadding ? 8 : 0}>
             {seats.map((seat: ISeats, key: number) => {
               return (
                 <Grid
                   pt={1}
                   key={key}
                   margin={1}
-                  xs={2}
+                  xs={MobileGrid ? 4 : 2}
                   onClick={() => handleSelected(seat)}
                   border={"1px solid black"}
                   borderRadius={"15px"}
