@@ -1,6 +1,6 @@
-export default interface ISheets {
+export default interface ISeats {
   _id: String;
   bookerName: String;
   isBooked: Boolean;
-  sheetNo: number;
+  seatNo: number;
 }

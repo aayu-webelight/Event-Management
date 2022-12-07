@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import express, { Application, Request, Response } from "express";
 
 import { appConfig } from "config/appConfig";
-import sheetRouter from "routes/sheetRoute";
+import seatRouter from "routes/seatRoute";
 
 const app: Application = express();
 
@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({ origin: true }));
 
-app.use("/", sheetRouter);
+app.use("/", seatRouter);
 
 mongoose.connect(appConfig.mongourl as string, () => {
   console.log("connected to database");

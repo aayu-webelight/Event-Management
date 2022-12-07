@@ -8,16 +8,16 @@ import { useState } from "react";
 import Alertbox from "./Alertbox";
 import { bookslot } from "../services/httprequest";
 
-const AddBooking = (props: any) => {
+const BookSeat = (props: any) => {
   const [alertOpen, setAlertOpen] = useState<Boolean>(false);
   const [error, setError] = useState<Boolean>(false);
   const [name, setName] = useState<String>("");
   const handleClose = () => {
-    props.setShowAddDialog(false);
+    props.setShowBookSeatDialog(false);
   };
   const handleSubmit = async () => {
     const body = JSON.stringify({
-      id: props.selectedSheet._id,
+      id: props.selectedSeat._id,
       bookerName: name,
     });
     const response = await bookslot(body);
@@ -27,14 +27,14 @@ const AddBooking = (props: any) => {
       setError(true);
     }
     setAlertOpen(true);
-    props.setShowAddDialog(false);
+    handleClose();
   };
 
   return (
     <>
-      <Dialog fullWidth open={props.showAddDialog} onClose={handleClose}>
+      <Dialog fullWidth open={props.showBookSeatDialog} onClose={handleClose}>
         <DialogTitle>
-          Enter Bookie Name For Sheet {props.selectedSheet.sheetNo}
+          Enter Bookie Name For Seat {props.selectedSeat.seatNo}
         </DialogTitle>
         <DialogContent>
           <TextField
@@ -62,4 +62,4 @@ const AddBooking = (props: any) => {
   );
 };
 
-export default AddBooking;
+export default BookSeat;

@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
-import ISheet from "interfaces/sheetInterface";
+import ISeat from "interfaces/seat";
 
-const sheetSchema = new mongoose.Schema<ISheet>({
+const seatSchema = new mongoose.Schema<ISeat>({
   bookerName: {
     type: String,
   },
-  sheetNo: {
+  seatNo: {
     type: Number,
     required: true,
     unique: true,
@@ -16,5 +16,5 @@ const sheetSchema = new mongoose.Schema<ISheet>({
   },
 });
 
-const Sheet = mongoose.model<ISheet>("Sheets", sheetSchema);
-export default Sheet;
+const Seat = mongoose.model<ISeat>("seats", seatSchema);
+export default Seat;

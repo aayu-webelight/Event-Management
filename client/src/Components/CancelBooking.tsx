@@ -15,7 +15,7 @@ const CancelBooking = (props: any) => {
 
   const handleSubmit = async () => {
     const body = JSON.stringify({
-      id: props.selectedSheet._id,
+      id: props.selectedSeat._id,
     });
     const response = await cancelSlot(body);
 
