@@ -27,3 +27,25 @@ export const cancelSlot = async (body: string) => {
     },
   });
 };
+
+export const addSlot = async (body: string) => {
+  const url = API as string;
+  return await fetch(url, {
+    method: "POST",
+    body: body,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
+
+export const removeSlot = async (body: string) => {
+  const url = API as string;
+  return await fetch(url + "/delete", {
+    method: "DELETE",
+    body: body,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};

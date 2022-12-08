@@ -6,17 +6,18 @@ import {
   deleteSeat,
 } from "controllers/seatController";
 import express from "express";
+import { auth } from "middleware/auth";
 
 const seatRouter = express.Router();
 
 seatRouter.get("/", getAllSeat);
 
-seatRouter.post("/", addSeats);
+seatRouter.post("/", auth, addSeats);
 
 seatRouter.put("/", updateBooking);
 
 seatRouter.delete("/", cancelBooking);
 
-seatRouter.delete("/delete", deleteSeat);
+seatRouter.delete("/delete", auth, deleteSeat);
 
 export default seatRouter;

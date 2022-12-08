@@ -7,12 +7,19 @@ import BookSeat from "../Components/BookSeat";
 import CancelBooking from "../Components/CancelBooking";
 import Radio from "@mui/material/Radio";
 import { getSlots } from "../services/httprequest";
-import { useMediaQuery } from "@mui/material";
+import { Button, useMediaQuery } from "@mui/material";
+import { experimentalStyled as styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import Logo from "../icons/Logo.png";
+import Stack from "@mui/material/Stack";
+import AddSeats from "../Components/AddSeats";
+import RemoveSeats from "../Components/RemoveSeats";
 
 const Selection = () => {
-  const [seats, setSeats] = useState<ISeats[]>([]);
+  const [totalSeats, setTotalSeats] = useState<ISeats[]>([]);
+  const [showAddSeats, setShowAddSeats] = useState<Boolean>(false);
+  const [showRemoveSeats, setShowRemoveSeats] = useState<Boolean>(false);
   const [statusChange, setStatusChange] = useState<Boolean>(true);
-
   const [selectedSeat, setSelectedSeat] = useState<ISeats>({
     bookerName: "",
     seatNo: 0,
@@ -21,8 +28,8 @@ const Selection = () => {
   });
   const [showBookSeatDialog, setShowBookSeatDialog] = useState<boolean>(false);
   const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false);
-  const MobileGrid = useMediaQuery("(max-width:720px)");
-  const MobilePadding = useMediaQuery("(min-width:1280px)");
+  const Mobile = useMediaQuery("(max-width:720px)");
+  const Desktop = useMediaQuery("(min-width:1280px)");
 
   useEffect(() => {
     getEvents();
@@ -31,7 +38,7 @@ const Selection = () => {
   const getEvents = async () => {
     const response: any = await getSlots();
     if (response.status === 200) {
-      setSeats(response.data);
+      setTotalSeats(response.data);
       setStatusChange(false);
     }
   };
@@ -39,18 +46,48 @@ const Selection = () => {
   const handleSelected = (event: ISeats) => {
     setSelectedSeat(event);
   };
+
   return (
     <>
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container mt={2}>
+          <Grid item xs={2} ml={15} mr={5} mt={2}>
+            <img src={Logo} alt="Webelight-Logo" width="250px" />
+          </Grid>
+          <Grid item xs={2} sm={4} ml={34} mt={1}>
+            <Typography variant="h3">Seat Management</Typography>
+          </Grid>
+          <Grid item xs={2} ml={8} mt={2}>
+            <Stack spacing={2} direction="row">
+              <Button
+                variant="contained"
+                size="large"
+                onClick={() => setShowAddSeats(true)}
+              >
+                Add Seats
+              </Button>
+
+              <Button
+                variant="contained"
+                size="large"
+                onClick={() => setShowRemoveSeats(true)}
+              >
+                Remove Seats
+              </Button>
+            </Stack>
+          </Grid>
+        </Grid>
+      </Box>
       <Box mt={10} ml={5}>
         <Box sx={{ flexGrow: 1 }}>
-          <Grid container item spacing={5} ml={MobilePadding ? 8 : 0}>
-            {seats.map((seat: ISeats, key: number) => {
+          <Grid container item spacing={5} ml={Desktop ? 8 : -5}>
+            {totalSeats.map((seat: ISeats, key: number) => {
               return (
                 <Grid
                   pt={1}
                   key={key}
                   margin={1}
-                  xs={MobileGrid ? 4 : 2}
+                  xs={Mobile ? 4 : 2}
                   onClick={() => handleSelected(seat)}
                   border={"1px solid black"}
                   borderRadius={"15px"}
@@ -108,6 +145,7 @@ const Selection = () => {
               );
             })}
           </Grid>
+          <Grid container justifyContent={"center"} pt={4}></Grid>
         </Box>
 
         <BookSeat
@@ -121,6 +159,16 @@ const Selection = () => {
           showCancelDialog={showCancelDialog}
           setShowCancelDialog={setShowCancelDialog}
           selectedSeat={selectedSeat}
+          setStatusChange={setStatusChange}
+        />
+        <AddSeats
+          setShowAddSeats={setShowAddSeats}
+          showAddSeats={showAddSeats}
+          setStatusChange={setStatusChange}
+        />
+        <RemoveSeats
+          showRemoveSeats={showRemoveSeats}
+          setShowRemoveSeats={setShowRemoveSeats}
           setStatusChange={setStatusChange}
         />
       </Box>

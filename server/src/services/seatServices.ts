@@ -1,11 +1,11 @@
 import Seat from "models/seatModel";
 import ISeat from "interfaces/seat";
 
-export const addSeat = async (totalSeats: number) => {
+export const addSeat = async (totalSeats: string) => {
   try {
     const previousseats: ISeat[] | any = await getAllSeats();
     const totalSeat = previousseats.length;
-    for (let i = totalSeat + 1; i <= totalSeat + totalSeats; i++) {
+    for (let i = totalSeat + 1; i <= totalSeat + parseInt(totalSeats); i++) {
       await Seat.create({
         bookerName: "",
         seatNo: i,
@@ -38,7 +38,6 @@ export const updateSeatBooking = async (obj: ISeat) => {
 
 export const cancelSeatBooking = async (id: string) => {
   try {
-    console.log(id);
     return await Seat.findByIdAndUpdate(id, {
       bookerName: "",
       isBooked: false,
@@ -48,11 +47,11 @@ export const cancelSeatBooking = async (id: string) => {
   }
 };
 
-export const deleteSeats = async (seats: number) => {
+export const deleteSeats = async (seats: string) => {
   try {
     const previousseats: ISeat[] | any = await getAllSeats();
     const totalSeat = previousseats.length;
-    for (let i = totalSeat; i > totalSeat - seats; i--) {
+    for (let i = totalSeat; i > totalSeat - parseInt(seats); i--) {
       await Seat.deleteOne({
         seatNo: i,
       });

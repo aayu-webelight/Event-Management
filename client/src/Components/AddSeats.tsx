@@ -6,52 +6,72 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import Alertbox from "./Alertbox";
-import { bookslot } from "../services/httprequest";
+import { addSlot } from "../services/httprequest";
+import Loader from "./Loader";
 
-const BookSeat = (props: any) => {
+const AddSeats = (props: any) => {
+  const [submitted, setSubmitted] = useState(false);
   const [alertOpen, setAlertOpen] = useState<Boolean>(false);
   const [error, setError] = useState<Boolean>(false);
-  const [name, setName] = useState<String>("");
+  const [totalSeats, setTotalSeats] = useState<any>(0);
+  const [password, setPassword] = useState<String>("");
   const handleClose = () => {
-    props.setShowBookSeatDialog(false);
+    props.setShowAddSeats(false);
   };
+
   const handleSubmit = async () => {
+    setSubmitted(true);
     const body = JSON.stringify({
-      id: props.selectedSeat._id,
-      bookerName: name,
+      totalSeats,
+      password,
     });
-    const response = await bookslot(body);
+    const response = await addSlot(body);
     if (response.status === 201) {
       props.setStatusChange(true);
+      setSubmitted(false);
     } else {
       setError(true);
+      setSubmitted(false);
     }
+
     setAlertOpen(true);
     handleClose();
   };
 
   return (
     <>
-      <Dialog fullWidth open={props.showBookSeatDialog} onClose={handleClose}>
-        <DialogTitle>
-          Enter Occupy Name For Seat {props.selectedSeat.seatNo}
-        </DialogTitle>
+      <Dialog fullWidth open={props.showAddSeats} onClose={handleClose}>
+        <DialogTitle>Enter Number of Seats To Add</DialogTitle>
         <DialogContent>
           <TextField
+            type={"number"}
             id="outlined-basic"
-            label="Add Name"
+            label="Add Number Of Seats To Add"
             variant="outlined"
             fullWidth
             margin="normal"
             onChange={(event) => {
-              setName(event.target.value);
+              setTotalSeats(event.target.value);
+            }}
+          />
+          <TextField
+            id="outlined-basic"
+            label="Enter Password"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            onChange={(event) => {
+              setPassword(event.target.value);
             }}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit}>Add</Button>
+          <Button onClick={handleSubmit} disabled={submitted ? true : false}>
+            Add
+          </Button>
         </DialogActions>
+        <Loader open={submitted} />
       </Dialog>
       <Alertbox
         alertOpen={alertOpen}
@@ -62,4 +82,4 @@ const BookSeat = (props: any) => {
   );
 };
 
-export default BookSeat;
+export default AddSeats;

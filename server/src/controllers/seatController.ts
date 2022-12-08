@@ -41,7 +41,7 @@ export const cancelBooking = async (req: Request, res: Response) => {
 
 export const deleteSeat = async (req: Request, res: Response) => {
   try {
-    res.status(200).send(await deleteSeats(req.body.seatsToDelete));
+    res.status(200).send(await deleteSeats(req.body.totalSeats));
   } catch (error) {
     res.status(400).send(error);
   }
