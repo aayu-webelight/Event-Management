@@ -47,7 +47,7 @@ const Selection = () => {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1 }} mt={5} mb={15}>
         <Grid container mt={2}>
           <Grid item xs={2} ml={15} mr={5} mt={2}>
             <img src={Logo} alt="Webelight-Logo" width="250px" />
