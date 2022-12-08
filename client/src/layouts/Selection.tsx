@@ -1,17 +1,15 @@
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
+import { Button, useMediaQuery } from "@mui/material";
+import Stack from "@mui/material/Stack";
+import Radio from "@mui/material/Radio";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import ISeats from "../interfaces/Seat";
 import BookSeat from "../Components/BookSeat";
 import CancelBooking from "../Components/CancelBooking";
-import Radio from "@mui/material/Radio";
 import { getSlots } from "../services/httprequest";
-import { Button, useMediaQuery } from "@mui/material";
-import { experimentalStyled as styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
 import Logo from "../icons/Logo.png";
-import Stack from "@mui/material/Stack";
 import AddSeats from "../Components/AddSeats";
 import RemoveSeats from "../Components/RemoveSeats";
 
