@@ -6,40 +6,35 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import Alertbox from "./Alertbox";
+import { bookslot } from "../services/httprequest";
 
-const AddBooking = (props: any) => {
+const BookSeat = (props: any) => {
   const [alertOpen, setAlertOpen] = useState<Boolean>(false);
+  const [error, setError] = useState<Boolean>(false);
   const [name, setName] = useState<String>("");
   const handleClose = () => {
-    props.setShowAddDialog(false);
+    props.setShowBookSeatDialog(false);
   };
-  const handleSubmit = () => {
-    fetch("http://localhost:3001", {
-      method: "PUT",
-      body: JSON.stringify({
-        id: props.selectedEvent._id,
-        bookerName: name,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        setAlertOpen(true);
-        props.setEventChange(true);
-        props.setShowAddDialog(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleSubmit = async () => {
+    const body = JSON.stringify({
+      id: props.selectedSeat._id,
+      bookerName: name,
+    });
+    const response = await bookslot(body);
+    if (response.status === 201) {
+      props.setStatusChange(true);
+    } else {
+      setError(true);
+    }
+    setAlertOpen(true);
+    handleClose();
   };
 
   return (
     <>
-      <Dialog fullWidth open={props.showAddDialog} onClose={handleClose}>
+      <Dialog fullWidth open={props.showBookSeatDialog} onClose={handleClose}>
         <DialogTitle>
-          Enter Bookie Name For {props.selectedEvent.showName}
+          Enter Occupy Name For Seat {props.selectedSeat.seatNo}
         </DialogTitle>
         <DialogContent>
           <TextField
@@ -48,7 +43,9 @@ const AddBooking = (props: any) => {
             variant="outlined"
             fullWidth
             margin="normal"
-            onChange={(event) => setName(event.target.value)}
+            onChange={(event) => {
+              setName(event.target.value);
+            }}
           />
         </DialogContent>
         <DialogActions>
@@ -56,9 +53,13 @@ const AddBooking = (props: any) => {
           <Button onClick={handleSubmit}>Add</Button>
         </DialogActions>
       </Dialog>
-      <Alertbox alertOpen={alertOpen} setAlertOpen={setAlertOpen} />
+      <Alertbox
+        alertOpen={alertOpen}
+        setAlertOpen={setAlertOpen}
+        error={error}
+      />
     </>
   );
 };
 
-export default AddBooking;
+export default BookSeat;

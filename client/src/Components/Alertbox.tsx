@@ -27,10 +27,10 @@ const Alertbox = (props: any) => {
     >
       <Alert
         onClose={handleAlertClose}
-        severity="success"
+        severity={props.error ? "error" : "success"}
         sx={{ width: "100%" }}
       >
-        Successfull
+        {props.error ? "Error" : "Success"}
       </Alert>
     </Snackbar>
   );
