@@ -15,11 +15,26 @@ const RemoveSeats = (props: any) => {
   const [error, setError] = useState<Boolean>(false);
   const [totalSeats, setTotalSeats] = useState<any>(0);
   const [password, setPassword] = useState<String>("");
+  const [passwordEmpty, setPasswordEmpty] = useState<Boolean>(false);
+  const [seatEntered, setSeatEntered] = useState<Boolean>(false);
   const handleClose = () => {
     props.setShowRemoveSeats(false);
   };
 
   const handleSubmit = async () => {
+    if (totalSeats <= 0 || totalSeats > props.totalSeats) {
+      setSeatEntered(true);
+      return;
+    } else {
+      setSeatEntered(false);
+    }
+    if (password.trim().length <= 0) {
+      setPasswordEmpty(true);
+      return;
+    } else {
+      setPasswordEmpty(false);
+    }
+
     setSubmitted(true);
     const body = JSON.stringify({
       totalSeats,
@@ -29,13 +44,12 @@ const RemoveSeats = (props: any) => {
     if (response.status === 200) {
       props.setStatusChange(true);
       setSubmitted(false);
+      handleClose();
     } else {
       setError(true);
       setSubmitted(false);
     }
     setAlertOpen(true);
-    handleClose();
-    setSubmitted(false);
   };
 
   return (
@@ -44,6 +58,8 @@ const RemoveSeats = (props: any) => {
         <DialogTitle>Enter Number of Seats To Remove</DialogTitle>
         <DialogContent>
           <TextField
+            error={!seatEntered ? false : true}
+            required={true}
             type={"number"}
             id="outlined-basic"
             label="Add Number Of Seats To Remove"
@@ -53,8 +69,12 @@ const RemoveSeats = (props: any) => {
             onChange={(event) => {
               setTotalSeats(event.target.value);
             }}
+            helperText={!seatEntered ? "" : "Enter Correct Number of Seats"}
           />
+
           <TextField
+            error={!passwordEmpty ? false : true}
+            required={true}
             id="outlined-basic"
             label="Enter Password"
             variant="outlined"
@@ -63,6 +83,7 @@ const RemoveSeats = (props: any) => {
             onChange={(event) => {
               setPassword(event.target.value);
             }}
+            helperText={!passwordEmpty ? "" : "Enter Correct Password"}
           />
         </DialogContent>
         <DialogActions>
