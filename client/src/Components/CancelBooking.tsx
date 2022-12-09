@@ -42,7 +42,7 @@ const CancelBooking = (props: any) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {`Do You want to delete the cancel the booking?`}
+          {`Do you want to release the seat?`}
         </DialogTitle>
 
         <DialogActions>

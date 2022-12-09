@@ -1,13 +1,13 @@
-import { API } from "../config/config";
 import axios from "axios";
+import { appConfig } from "../config/config";
 
 export const getSlots = async () => {
-  const url = API as string;
+  const url = appConfig.apiURL as string;
   return await axios.get(url);
 };
 
 export const bookslot = async (body: string) => {
-  const url = API as string;
+  const url = appConfig.apiURL as string;
   return await fetch(url, {
     method: "PUT",
     body: body,
@@ -18,7 +18,7 @@ export const bookslot = async (body: string) => {
 };
 
 export const cancelSlot = async (body: string) => {
-  const url = API as string;
+  const url = appConfig.apiURL as string;
   return await fetch(url, {
     method: "DELETE",
     body: body,
@@ -29,7 +29,7 @@ export const cancelSlot = async (body: string) => {
 };
 
 export const addSlot = async (body: string) => {
-  const url = API as string;
+  const url = appConfig.apiURL as string;
   return await fetch(url, {
     method: "POST",
     body: body,
@@ -40,7 +40,7 @@ export const addSlot = async (body: string) => {
 };
 
 export const removeSlot = async (body: string) => {
-  const url = API as string;
+  const url = appConfig.apiURL as string;
   return await fetch(url + "/delete", {
     method: "DELETE",
     body: body,
