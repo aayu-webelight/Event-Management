@@ -1,1 +1,3 @@
-export const API = "http://localhost:3001";
+export const appConfig = {
+  apiURL: process.env.REACT_APP_API,
+};
